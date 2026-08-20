@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>semicolon;</title>
+<meta name="description" content="we measure Pakistan's information system and trace how power moves through it.">
+<style>
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-800.woff2') format('woff2'); font-weight:800; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+
+  :root {
+    --ground:#FFFFFF; --ink:#2B2A27; --muted:rgba(43,42,39,.5); --faint:rgba(43,42,39,.32); --hair:rgba(43,42,39,.14);
+    --lal:#9E2B25; --lal-hover:#7E1F1A; --lal-deep:#701E19;
+    --marigold:#E0A93C; --marigold-rgb:224,169,60; --field:#F2DEB0; --wash:#FBF6EC;
+    --c1:#9E2B25; --c2:#E0A93C; --c3:#3D52B8;   /* the pillar markers */
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.6 'Inter', system-ui, sans-serif;
+         -webkit-font-smoothing:antialiased; }
+  .page { max-width:880px; margin:0 auto; padding:0 clamp(22px,4vw,48px) 64px; }
+  a { color:var(--lal); text-decoration:none; border-bottom:2px solid var(--lal); padding-bottom:1px; font-weight:600; }
+  a:hover { color:var(--lal-hover); border-bottom-color:var(--lal-hover); }
+  :focus-visible { outline:3px solid var(--marigold); outline-offset:3px; }
+  .skip { position:absolute; left:-9999px; }
+  .skip:focus { position:static; display:inline-block; margin:10px 0; }
+
+  /* masthead: descriptor in the wordmark's case, rule at the content width */
+  header { text-align:center; padding-top:34px; }
+  .wm { font:800 clamp(34px,4.4vw,54px)/1 'Franklin'; font-style:italic; letter-spacing:-.022em;
+        color:var(--lal); border:none; position:relative; display:inline-block; padding:0 .12em; }
+  .wm:hover { color:var(--lal); }
+  .wm::before { content:""; position:absolute; left:-.04em; right:-.06em; top:26%; bottom:4%; z-index:0;
+        background:linear-gradient(90deg, rgba(var(--marigold-rgb),0) 0%, rgba(var(--marigold-rgb),.92) 3%,
+                   rgba(var(--marigold-rgb),.82) 55%, rgba(var(--marigold-rgb),.95) 88%, rgba(var(--marigold-rgb),0) 100%);
+        transform:rotate(-.7deg); }
+  .wm b { position:relative; z-index:1; font-weight:inherit; }
+  .wm i { font-style:normal; }
+  .tag { margin-top:10px; font:500 15.5px/1.4 'Franklin'; color:var(--ink); }
+  .rule { margin:22px 0 0; border-top:2px solid var(--ink); }
+  nav { margin-top:16px; display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
+  nav a { font:400 15px/1 'Franklin'; color:var(--muted); border-bottom:1.5px solid transparent; padding-bottom:3px; font-weight:400; }
+  nav a:hover { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a[aria-current] { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a.join { color:var(--lal); font-weight:600; border-bottom-color:rgba(158,43,37,.35); }
+  nav a.join:hover { border-bottom-color:var(--lal); }
+
+  /* hero: what we do on the left, why it matters answering from the right, one door.
+     the stagger is the whole gesture. the hero no longer reserves the screen, so the
+     source row follows straight on and the fold falls wherever the content ends. */
+  .hero { margin-top:clamp(34px,6vh,60px); text-align:left; }
+  .lede { font:600 clamp(23px,3vw,32px)/1.32 'InterTight'; letter-spacing:-.014em;
+          color:var(--ink); max-width:26ch; margin-right:auto; }
+  .lede a { white-space:nowrap; }   /* the accent phrase never breaks across lines */
+  /* the tail: the door leads, the three pillars follow it along one line.
+     wraps to two lines when the frame cannot hold both, door staying on top. */
+  .tail { margin-top:clamp(20px,2.8vh,28px); display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .tail .more { margin:0; flex:none; }
+  .tail .pillars { margin-top:0; flex:1 1 380px; }
+  /* below this the chips start wrapping their own labels, so give them the whole row
+     and let the button drop to a second line, still right */
+  @media (max-width:860px){ .tail .pillars { flex-basis:100%; } }
+
+  .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .pill { display:flex; align-items:center; gap:9px; border:1px solid var(--hair); border-radius:3px;
+          padding:12px 14px; background:#fff; font:600 13px/1.25 'Inter'; color:var(--ink);
+          text-decoration:none; transition:background .12s ease, border-color .12s ease, transform .12s ease; }
+  .pill:hover { background:var(--wash); border-color:var(--marigold); color:var(--ink); transform:translateY(-1px); }
+  .pill .sw { width:10px; height:10px; border-radius:2px; flex:none; }
+  .pill.p1 .sw { background:var(--c1); } .pill.p2 .sw { background:var(--c2); } .pill.p3 .sw { background:var(--c3); }
+  @media (max-width:560px){ .pillars { grid-template-columns:1fr; } }
+
+  .why { margin:clamp(26px,3.5vh,36px) 0 0 auto; background:var(--field); border-radius:3px;
+         padding:clamp(20px,2.6vw,28px); max-width:620px; }
+  .why p { font:600 clamp(18px,2vw,21px)/1.5 'InterTight'; letter-spacing:-.012em;
+           color:var(--lal-deep); text-shadow:0 1px 0 rgba(255,255,255,.5); }
+  /* the door is a solid button: the one thing on the page asking to be pressed */
+  .more { display:block; width:fit-content; margin:clamp(18px,2.4vh,24px) 0 0 auto;
+          background:var(--lal); color:#fff; border:none; border-radius:3px;
+          padding:12px 19px; font:600 14px/1 'Inter'; }
+  .more:hover { background:var(--lal-hover); color:#fff; }
+
+  /* the source buttons: boxes that invite a click. the top edge carries the archive's
+     figure color, so the row doubles as the legend those archives keep in every chart.
+     three across, then two: five narrow columns could not hold several questions each. */
+  .sources { margin-top:clamp(78px,12vh,144px); }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .card { display:flex; flex-direction:column; border:1px solid var(--hair); border-top:3px solid var(--k);
+          border-radius:3px; padding:13px 15px; color:var(--ink); font-weight:400; text-decoration:none;
+          background:#fff; transition:background .12s ease, border-color .12s ease, transform .12s ease; }
+  .card:hover { background:var(--wash); border-color:var(--marigold); border-top-color:var(--k); transform:translateY(-1px); }
+  .card svg { display:block; margin-bottom:11px; color:var(--k); }
+  .card b { display:block; font:600 13.5px/1.3 'Inter'; margin-bottom:7px; }
+  .card p { font:500 13.5px/1.45 'InterTight'; color:var(--muted); }
+  .card p + p { margin-top:8px; padding-top:8px; border-top:1px solid rgba(43,42,39,.07); }
+  .card .go { margin-top:auto; padding-top:12px; font:600 13px/1 'Franklin'; color:var(--faint);
+              display:flex; justify-content:flex-end; transition:color .12s ease, transform .12s ease; }
+  .card:hover .go { color:var(--k); transform:translateX(2px); }
+  /* the categorical figure palette, fixed order, one archive each */
+  .k1 { --k:#9E2B25; } .k2 { --k:#00919B; } .k3 { --k:#C08A10; } .k4 { --k:#3D52B8; } .k5 { --k:#A15A1E; }
+  @media (max-width:760px){ .cards { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .cards { grid-template-columns:1fr; } }
+
+  /* join */
+  .join-block { margin-top:clamp(44px,7vh,72px); background:var(--field); border-radius:3px;
+                padding:clamp(20px,2.6vw,28px); display:flex; gap:18px; align-items:baseline;
+                justify-content:space-between; flex-wrap:wrap; }
+  .join-block p { font:500 clamp(17px,1.9vw,19px)/1.45 'InterTight'; letter-spacing:-.008em; max-width:48ch; }
+  .join-block a { font-size:15px; white-space:nowrap; }
+
+  footer { margin-top:clamp(52px,8vh,88px); border-top:1px solid var(--hair); padding-top:16px;
+           font-size:12.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#sources">skip to what we read</a>
+<div class="page">
+
+  <header>
+    <a class="wm" href="index.html"><b>semicolon<i>;</i></b></a>
+    <p class="tag">a pakistani research collective</p>
+    <div class="rule"></div>
+    <nav>
+      <a href="index.html" aria-current="page">home</a>
+      <a href="about.html">about</a>
+      <a href="#">work</a>
+      <a class="join" href="#join">join us</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1 class="lede">we measure Pakistan's <a href="#sources">information system</a> and trace how power moves through it.</h1>
+      <div class="why">
+        <p>to move forward, Pakistan must study itself: its institutions, its society and its state; then recognize their failures, realize their responsibilities, and construct ideals.</p>
+      </div>
+      <div class="tail">
+        <a class="more" href="about.html">how we work</a>
+        <div class="pillars" aria-label="the three pillars">
+          <a class="pill p1" href="about.html#archive"><span class="sw"></span>archive discourse</a>
+          <a class="pill p2" href="about.html#study"><span class="sw"></span>study the system</a>
+          <a class="pill p3" href="about.html#ideals"><span class="sw"></span>construct ideals</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sources" id="sources">
+      <div class="cards">
+        <a class="card k1" href="#">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="1" y="1" width="24" height="15"/><path d="M9 21l4-5 4 5"/>
+          </svg>
+          <b>tv news</b><p>how does the media frame certain issues?</p><p>what biases are apparent?</p><p>where do different outlets diverge?</p><p>what should be the media's responsibilities?</p><span class="go">&#8594;</span>
+        </a>
+        <a class="card k2" href="#">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M1 1h16v11H6l-5 4z"/><path d="M21 6h4v11l-4-3"/>
+          </svg>
+          <b>social media</b><p>does discourse on the platforms follow what is on tv?</p><p>what are Pakistanis engaging with online?</p><span class="go">&#8594;</span>
+        </a>
+        <a class="card k3" href="#">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M1 1h18v20H1z"/><path d="M19 6h6v15h-6"/><path d="M5 6h10M5 10h10M5 14h10"/>
+          </svg>
+          <b>newspapers</b><p>what issues are given valuable space?</p><p>what bias and frames are used for minority groups?</p><span class="go">&#8594;</span>
+        </a>
+        <a class="card k4" href="#">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="1" y="3" width="6" height="18"/><rect x="9" y="1" width="6" height="20"/><rect x="17" y="5" width="6" height="16"/>
+          </svg>
+          <b>books</b><p>what are children taught to believe?</p><p>what are the biases within the textbooks?</p><span class="go">&#8594;</span>
+        </a>
+        <a class="card k5" href="#">
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="4" cy="5" r="1.6"/><circle cx="11" cy="5" r="1.6"/><circle cx="18" cy="5" r="1.6"/>
+            <circle cx="4" cy="12" r="1.6"/><circle cx="11" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>
+            <path d="M1 19h24"/>
+          </svg>
+          <b>parliament debates</b><p>what issues is the parliament talking about?</p><p>how have their stances changed over the years?</p><span class="go">&#8594;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="join-block" id="join">
+      <p>come join us; be a part of the collective.</p>
+      <a href="mailto:hello@semicolon.pk">join us</a>
+    </div>
+  </main>
+
+  <footer>
+    <span>semicolon; · semicolon.pk · draft</span>
+    <a href="about.html">about</a>
+  </footer>
+
+</div>
+</body>
+</html>

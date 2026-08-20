@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>about;</title>
+<style>
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-800.woff2') format('woff2'); font-weight:800; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+
+  :root {
+    --wash:#FBF6EC;
+    --ground:#FFFFFF; --ink:#2B2A27; --muted:rgba(43,42,39,.5); --faint:rgba(43,42,39,.32); --hair:rgba(43,42,39,.14);
+    --lal:#9E2B25; --lal-hover:#7E1F1A; --lal-deep:#701E19;
+    --marigold:#E0A93C; --marigold-rgb:224,169,60; --field:#F2DEB0;
+    --gutter:clamp(78px,10vw,132px);   /* the locked offset */
+    --c1:#9E2B25; --c2:#E0A93C; --c3:#3D52B8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.65 'Inter', system-ui, sans-serif;
+         -webkit-font-smoothing:antialiased; }
+  .page { max-width:880px; margin:0 auto; padding:0 clamp(22px,4vw,48px) 64px; }
+  a { color:var(--lal); text-decoration:none; border-bottom:2px solid var(--lal); padding-bottom:1px; font-weight:600; }
+  a:hover { color:var(--lal-hover); border-bottom-color:var(--lal-hover); }
+  :focus-visible { outline:3px solid var(--marigold); outline-offset:3px; }
+
+  header { text-align:center; padding-top:34px; }
+  .wm { font:800 clamp(34px,4.4vw,54px)/1 'Franklin'; font-style:italic; letter-spacing:-.022em;
+        color:var(--lal); border:none; position:relative; display:inline-block; padding:0 .12em; }
+  .wm::before { content:""; position:absolute; left:-.04em; right:-.06em; top:26%; bottom:4%; z-index:0;
+        background:linear-gradient(90deg, rgba(var(--marigold-rgb),0) 0%, rgba(var(--marigold-rgb),.92) 3%,
+                   rgba(var(--marigold-rgb),.82) 55%, rgba(var(--marigold-rgb),.95) 88%, rgba(var(--marigold-rgb),0) 100%);
+        transform:rotate(-.7deg); }
+  .wm b { position:relative; z-index:1; font-weight:inherit; }
+  .wm i { font-style:normal; }
+  .tag { margin-top:10px; font:500 15.5px/1.4 'Franklin'; color:var(--ink); }
+  .rule { margin:22px 0 0; border-top:2px solid var(--ink); }
+  nav { margin-top:16px; display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
+  nav a { font:400 15px/1 'Franklin'; color:var(--muted); border-bottom:1.5px solid transparent; padding-bottom:3px; font-weight:400; }
+  nav a:hover { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a[aria-current] { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a.join { color:var(--lal); font-weight:600; border-bottom-color:rgba(158,43,37,.35); }
+  nav a.join:hover { border-bottom-color:var(--lal); }
+
+  /* the two-track page: labels in the margin, everything else offset right */
+  main { margin-top:clamp(38px,6vh,64px); }
+  .row { display:grid; grid-template-columns:var(--gutter) minmax(0,1fr); gap:clamp(20px,3vw,44px);
+         margin-top:clamp(34px,5vh,56px); align-items:start; }
+  .row:first-child { margin-top:0; }
+  /* margin labels: faint, right aligned against the text edge, italic, no caps */
+  .lbl { font:400 15px/1.6 'Franklin'; font-style:italic; letter-spacing:0; color:var(--faint);
+         text-align:right; padding-top:3px; }
+  .col { max-width:58ch; }
+  @media (max-width:720px){
+    .row { grid-template-columns:1fr; gap:9px; }
+    .lbl { padding-top:0; }
+  }
+
+  /* the statements sit full width, left of the offset, so the page has two voices */
+  .say { max-width:52ch; }
+  .premise { font:500 clamp(16.5px,1.7vw,18px)/1.55 'InterTight'; letter-spacing:-.008em; }
+  .mission { margin-top:20px; background:var(--field); border-radius:3px; padding:clamp(20px,2.6vw,28px); max-width:620px; }
+  .mission h1 { font:600 clamp(18px,2vw,21px)/1.5 'InterTight'; letter-spacing:-.012em;
+                color:var(--lal-deep); text-shadow:0 1px 0 rgba(255,255,255,.5); }
+  p + p { margin-top:15px; }
+  .joinbox { background:var(--field); border-radius:3px; padding:clamp(18px,2.4vw,24px); max-width:620px; }
+  .turn { font:500 clamp(16.5px,1.7vw,18px)/1.55 'InterTight'; letter-spacing:-.008em; }
+  /* the three pillars: a full-width breakout row, one box each */
+  .col.wide { max-width:none; }
+  .pillars { --pw:min(1240px, calc(100vw - 2*clamp(22px,4vw,48px)));
+             width:var(--pw); margin-left:calc((100% - var(--pw))/2);
+             margin-top:26px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .pillars { grid-template-columns:1fr; } }
+  .pillar { border:1px solid var(--hair); border-radius:3px; background:#fff; padding:20px 22px 18px; }
+  .pillar .head { display:flex; align-items:center; gap:11px; }
+  .pillar .dot { width:11px; height:11px; border-radius:2px; flex:none; }
+  .pillar h2 { font:600 17px/1.3 'Inter'; letter-spacing:-.005em; }
+  .pillar p { margin-top:12px; font:400 13.5px/1.6 'Inter'; max-width:62ch; }
+
+  .c1 .dot { background:var(--c1); } .c2 .dot { background:var(--c2); } .c3 .dot { background:var(--c3); }
+  .people { display:grid; gap:6px; margin-top:14px; }
+  .people .who { display:grid; grid-template-columns:minmax(150px,.42fr) 1fr; gap:18px; align-items:baseline; }
+  .people .rl { color:var(--muted); }
+  .status { font-size:13.5px; color:var(--muted); }
+  @media (max-width:560px){ .people .who { grid-template-columns:1fr; gap:2px; } }
+
+
+  footer { margin-top:clamp(56px,8vh,88px); border-top:1px solid var(--hair); padding-top:16px;
+           font-size:12.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <a class="wm" href="index.html"><b>semicolon<i>;</i></b></a>
+    <p class="tag">a pakistani research collective</p>
+    <div class="rule"></div>
+    <nav>
+      <a href="index.html">home</a>
+      <a href="about.html" aria-current="page">about</a>
+      <a href="#">work</a>
+      <a class="join" href="#join">join us</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="row">
+      <p class="lbl">mission</p>
+      <div class="col say">
+        <p class="premise">a lack of direction comes from a lack of understanding.</p>
+        <div class="mission">
+          <h1>to move forward, Pakistan must study itself: its institutions, its society and its state; then recognize their failures, realize their responsibilities, and construct ideals.</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <p class="lbl">what we do</p>
+      <div class="col wide">
+        <p class="turn">we study Pakistan through what we are told: the news, the bulletins, the dramas, the textbooks, the magazines, the debates in parliament, and anything else that shapes what we come to believe.</p>
+      </div>
+    </div>
+
+    <div class="pillars">
+          <section class="pillar c1" id="archive">
+            <div class="head"><span class="dot"></span><h2>archive discourse</h2></div>
+            <p>we collect and archive information of every kind: tv news, memes, dramas, newspapers, magazines, parliamentary debates, textbooks.</p>
+            <p>this information is valuable because it is how we are told about our social and political reality, and how we talk about it. it tells us what is happening, and in doing so, shapes what we believe and how we behave.</p>
+            <p>we build archives, so anyone can explore them, study them, and answer questions of their own. <a href="index.html#sources">learn more about them here.</a></p>
+          </section>
+          <section class="pillar c2" id="study">
+            <div class="head"><span class="dot"></span><h2>study the system</h2></div>
+            <p>we study Pakistan's information system to describe its state: how power moves through it, who decides what gets covered, what we are shown, and what we never see.</p>
+            <p>describing the system lets us hold its outcomes in our hands and look at them. it adds colors and textures to large conceptual institutions, like social media platforms and journalism, making them tangible and understandable. most importantly, it makes them critiqueable.</p>
+            <p>we write reports that describe what we find. the methods and the data are already open in the archive, so anyone can check the work or make a different case from it.</p>
+          </section>
+          <section class="pillar c3" id="ideals">
+            <div class="head"><span class="dot"></span><h2>construct ideals</h2></div>
+            <p>from theory and from the observed behaviors of the information system, we judge its current state and argue what a better one should do.</p>
+            <p>moving anywhere needs a destination: an idea of what good institutions, good journalism, a good information system should look like. we construct these ideals in the open, collaborating with the public and with experts, and we test them against the country as it actually is. and we argue and advocate for moving towards these ideals.</p>
+            <p>we write essays: we argue when systems fail their responsibilities, and we propose what better would look like. our judgements can be critiqued the same way our reports can be checked.</p>
+          </section>
+    </div>
+
+    <div class="row" id="join">
+      <p class="lbl">join us</p>
+      <div class="col">
+        <div class="joinbox">
+          <p>hello! join the collective and scrape, collect, and build archives; analyze, design, and write reports; argue and critique systems; or anything else. we want to work with curious people, experienced or not. send us a message here:</p>
+          <p style="margin-top:14px"><a href="mailto:hello@semicolon.pk">hello@semicolon.pk</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <p class="lbl">status</p>
+      <div class="col">
+        <p class="status">draft, 29 july 2026.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>semicolon; · semicolon.pk · draft</span>
+    <a href="index.html">the homepage</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
