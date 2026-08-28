@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>social media discourse;</title>
+<meta name="description" content="the social media discourse project: what it asks, what we hold, where it stands.">
+<style>
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-800.woff2') format('woff2'); font-weight:800; font-display:swap; }
+  @font-face { font-family:'Franklin'; src:url('fonts/franklin-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('fonts/inter-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'InterTight'; src:url('fonts/intertight-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'Archivo'; src:url('fonts/archivo-var.woff2') format('woff2'); font-weight:100 900; font-display:swap; }
+
+  :root {
+    --ground:#FFFFFF; --ink:#2B2A27; --muted:rgba(43,42,39,.5); --faint:rgba(43,42,39,.32); --hair:rgba(43,42,39,.14);
+    --line:rgba(43,42,39,.55);
+    --lal:#9E2B25; --lal-hover:#7E1F1A; --lal-deep:#701E19;
+    --marigold:#E0A93C; --marigold-rgb:224,169,60; --field:#F2DEB0; --wash:#FBF6EC;
+    --blush:#F5E7E4; --peach:#F3E4DE; --salmon:#F2C7BE; --mint:#A9E2DC;
+    --storm:#AFC5C9; --moss:#D3E2A0; --lavender:#C6C3DF; --sand:#F4D077;
+    --page-wash:#F1F5E2;   /* moss flattened against white, the page's big bed */
+    --mono:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; overflow-x:clip; }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.6 'Archivo', system-ui, sans-serif;
+         -webkit-font-smoothing:antialiased; overflow:clip; }
+  .page { max-width:1080px; margin:0 auto; padding:0 clamp(22px,4vw,48px) 64px; }
+  a { color:var(--lal); text-decoration:none; border-bottom:2px solid var(--lal); padding-bottom:1px; font-weight:600; }
+  a:hover { color:var(--lal-hover); border-bottom-color:var(--lal-hover); }
+  :focus-visible { outline:3px solid var(--marigold); outline-offset:3px; }
+  .skip { position:absolute; left:-9999px; }
+  .skip:focus { position:static; display:inline-block; margin:10px 0; }
+
+  /* masthead, same as the homepage */
+  header { padding-top:38px; display:flex; justify-content:space-between; align-items:flex-start;
+           gap:24px; flex-wrap:wrap; }
+  .wm { font:800 clamp(32px,4vw,48px)/1 'Franklin'; font-style:italic; letter-spacing:-.022em;
+        color:var(--lal); border:none; position:relative; display:inline-block; padding:0 .12em; }
+  .wm:hover { color:var(--lal); }
+  .wm::before { content:""; position:absolute; left:-.04em; right:-.06em; top:26%; bottom:4%; z-index:0;
+        background:linear-gradient(90deg, rgba(var(--marigold-rgb),0) 0%, rgba(var(--marigold-rgb),.92) 3%,
+                   rgba(var(--marigold-rgb),.82) 55%, rgba(var(--marigold-rgb),.95) 88%, rgba(var(--marigold-rgb),0) 100%);
+        transform:rotate(-.7deg); }
+  .wm b { position:relative; z-index:1; font-weight:inherit; }
+  .wm i { font-style:normal; }
+  .tag { margin-top:8px; font:500 15.5px/1.4 'Archivo'; color:var(--ink); }
+  nav { display:flex; gap:30px; flex-wrap:wrap; margin-top:14px; }
+  nav a { font:400 15px/1 'Archivo'; color:var(--muted); border-bottom:1.5px solid transparent; padding-bottom:3px; font-weight:400; }
+  nav a:hover { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a[aria-current] { color:var(--ink); border-bottom-color:var(--ink); }
+  nav a.join { color:var(--lal); font-weight:600; border-bottom-color:rgba(158,43,37,.35); }
+  nav a.join:hover { border-bottom-color:var(--lal); }
+
+  main { position:relative; }
+
+  /* the head of the project: title and blurb left, the image right */
+  .phero { position:relative; margin-top:clamp(44px,7vh,72px); display:grid;
+           grid-template-columns:minmax(0,1.15fr) minmax(0,460px);
+           column-gap:clamp(28px,4.5vw,64px); align-items:start; }
+  .ptitle { font:800 clamp(30px,4vw,46px)/1.18 'Archivo'; letter-spacing:-.018em; max-width:14ch; }
+  .plead { margin-top:clamp(26px,4vh,42px); font:600 clamp(20px,2.2vw,26px)/1.3 'Archivo';
+           letter-spacing:-.014em; }
+  .pblurb { margin-top:14px; font:400 16px/1.65 'Archivo'; max-width:52ch; }
+  .pblurb p + p { margin-top:12px; }
+  .pimg { justify-self:end; width:100%; max-width:340px; }
+  .pimg img { display:block; width:100%; height:auto; }
+  .pimg figcaption { margin-top:8px; text-align:center; font:500 12px/1.4 var(--mono); color:var(--muted); }
+
+  /* the questions, each one expandable */
+  .pq { margin-top:clamp(40px,6vh,64px); display:grid; grid-template-columns:1fr 1fr;
+        gap:clamp(16px,2.4vw,26px); }
+  .pq details { background:#fff; border:1px solid var(--line); border-radius:3px; }
+  .pq summary { list-style:none; cursor:pointer; padding:16px 44px 16px 18px; position:relative;
+                font:600 15px/1.45 'Archivo'; letter-spacing:-.008em; }
+  .pq summary::-webkit-details-marker { display:none; }
+  .pq summary::after { content:"+"; position:absolute; right:16px; top:50%; transform:translateY(-52%);
+                       font:400 20px/1 'Archivo'; color:var(--faint); }
+  .pq details[open] summary::after { content:"\2212"; }
+  .pq details p { padding:0 18px 16px; font:400 14px/1.6 'Archivo'; color:var(--muted); max-width:58ch; }
+
+  /* the data section, with the pinned status note in the rail */
+  .pdata { margin-top:clamp(48px,8vh,84px); display:grid;
+           grid-template-columns:minmax(0,1fr) 300px; column-gap:clamp(28px,4.5vw,64px);
+           align-items:start; }
+  .pdata h2 { font:600 clamp(24px,3vw,32px)/1.2 'Archivo'; letter-spacing:-.016em; }
+  .dlead { margin-top:16px; font:400 16px/1.65 'Archivo'; max-width:52ch; }
+  .dlead b { display:block; font-weight:600; }
+  .stats { margin-top:clamp(28px,4.5vh,44px); display:grid;
+           grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(14px,2.2vw,32px);
+           justify-items:center; }
+  .stat { text-align:center; }
+  .stat b { display:block; font:600 clamp(34px,4vw,44px)/1 'Archivo'; letter-spacing:-.02em;
+            font-variant-numeric:tabular-nums; }
+  .stat span { display:block; margin-top:8px; font:600 14px/1.3 'Archivo'; }
+
+  .status { position:relative; background:#fff; border:1px solid var(--hair); border-radius:3px;
+            padding:20px 20px 18px; box-shadow:0 4px 16px rgba(43,42,39,.1);
+            font:500 13px/1.65 var(--mono); margin-top:10px; }
+  /* the pin asset carries wide transparent margins, so it needs real size
+     and negative offsets for the visible head to land on the card corner */
+  .status .spin { position:absolute; top:-34px; right:-14px; width:80px; height:auto;
+                  transform:rotate(12deg); filter:drop-shadow(0 2px 3px rgba(43,42,39,.25)); }
+  .status b { display:block; font:600 13.5px/1.4 var(--mono); margin-bottom:10px; }
+  .status p + p { margin-top:10px; }
+  .status .strong { font-weight:600; }
+
+  /* option f, folded 2026-08-28: the questions follow the argument in the
+     left column; data and the status sit right under the image */
+  .pq { margin-top:clamp(28px,4.5vh,44px); grid-template-columns:1fr; }
+  .pdata { display:block; margin-top:clamp(30px,5vh,44px); }
+  .stats { grid-template-columns:1fr; justify-items:start; gap:26px; margin-top:24px; }
+  .stat { text-align:left; }
+  .stat .glyph { margin-left:0; }
+  .logos { margin:0; justify-content:flex-start; }
+  .status { margin-top:34px; }
+
+  footer { margin-top:clamp(52px,8vh,88px); border-top:1px solid var(--hair); padding-top:16px;
+           font-size:12.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+           position:relative; }
+  footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
+
+  @media (max-width:760px){
+    .phero { grid-template-columns:1fr; row-gap:26px; }
+    .pimg { justify-self:start; max-width:300px; }
+  }
+  @media (max-width:700px){
+    .pq { grid-template-columns:1fr; }
+  }
+  @media (max-width:860px){
+    .pdata { grid-template-columns:1fr; row-gap:36px; }
+    .status { max-width:340px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">skip to the project</a>
+<div class="page">
+
+  <header>
+    <div class="brand">
+      <a class="wm" href="index.html"><b>semicolon<i>;</i></b></a>
+      <p class="tag">a pakistani research collective</p>
+    </div>
+    <nav>
+      <a href="index.html">home</a>
+      <a href="about.html">about</a>
+      <a href="index.html#work" aria-current="page">work</a>
+      <a class="join" href="index.html#join">join us</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <section class="phero">
+      <div>
+        <h1 class="ptitle">Social media discourse.</h1>
+        <h2 class="plead">What do people watch and talk about on social media platforms?</h2>
+        <div class="pblurb">
+          <p>The media is restricted by journalistic standards and editors, but on
+            social media almost anything can be said (with minimal censorship).</p>
+          <p>Over 60 million Pakistanis are on Facebook and Instagram.</p>
+          <p>What are people actually talking about? What content gets the most
+            attention?</p>
+          <p>To answer these questions, we have applied for researcher access to Meta's
+            Content Library, which opens the public record of Facebook and Instagram:
+            the posts, the reels, the comments, and, for the first time, how many people
+            actually saw each one. We are working towards answering these questions:</p>
+        </div>
+
+    <section class="pq" aria-label="the questions this project asks">
+      <details>
+        <summary>What content gets the most attention?</summary>
+        <p>Mostly, an algorithm decides what you end up seeing on these platforms. It looks at your interests and what the post has to offer to decide whether to show it to you. But what gets selected usually? Does hate get more visibility? Does a political party get more views? Do people share misinformation more than real news?</p>
+      </details>
+      <details>
+        <summary>Are people living in their own bubbles online?</summary>
+        <p>Are there bubbles of political news and opinions on the platform? How much of the news and information is shared between these bubbles? We seek to investigate whether the camps argue about the same events in different ways, or have stopped talking about the same events at all.</p>
+      </details>
+      <details>
+        <summary>How much of what spreads is extremist?</summary>
+        <p>With extremist ideologies, both western and home-grown, rampant on the platforms, are they more likely to spread deeper and faster? Who is sharing them? Is the algorithm pushing extremist ideologies?</p>
+      </details>
+      <details>
+        <summary>Do social media and the news tell the same story?</summary>
+        <p>When something happens, the news has certain narratives for it. We check what the same event looks like on Facebook: the same framing, the same blame, or something television never mentioned at all.</p>
+      </details>
+    </section>
+      </div>
+
+      <div class="pcol-r">
+      <figure class="pimg">
+        <img src="img/platforms.png" alt="logos of social platforms">
+      </figure>
+      <div class="pdata">
+        <h2>data</h2>
+      <p class="dlead"><b>what we have.</b> We are waiting for research approval from Meta.</p>
+      <div class="stats">
+        <div class="stat"><b>2</b><span>platforms</span></div>
+        <div class="stat"><b>60M+</b><span>Pakistanis on Facebook</span></div>
+        <div class="stat"><b>0</b><span>posts collected, so far</span></div>
+      </div>
+      <aside class="status">
+      <img class="spin" src="img/pin.png" alt="" aria-hidden="true">
+      <b>project status</b>
+      <p>waiting</p>
+      </aside>
+      </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer>
+    <span>semicolon; · semicolon.pk</span>
+    <a href="index.html">home</a>
+  </footer>
+
+</div>
+<script src="edit.js?v=1"></script>
+</body>
+</html>

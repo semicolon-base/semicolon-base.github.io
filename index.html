@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -21,27 +20,39 @@
   @font-face { font-family:'Inter'; src:url('fonts/inter-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
   @font-face { font-family:'InterTight'; src:url('fonts/intertight-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
   @font-face { font-family:'InterTight'; src:url('fonts/intertight-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+  @font-face { font-family:'Archivo'; src:url('fonts/archivo-var.woff2') format('woff2'); font-weight:100 900; font-display:swap; }
 
   :root {
     --ground:#FFFFFF; --ink:#2B2A27; --muted:rgba(43,42,39,.5); --faint:rgba(43,42,39,.32); --hair:rgba(43,42,39,.14);
+    --line:rgba(43,42,39,.55);   /* the card and source-box outline, stronger than hair */
     --lal:#9E2B25; --lal-hover:#7E1F1A; --lal-deep:#701E19;
     --marigold:#E0A93C; --marigold-rgb:224,169,60; --field:#F2DEB0; --wash:#FBF6EC;
     --c1:#9E2B25; --c2:#E0A93C; --c3:#3D52B8;   /* the pillar markers */
+
+    /* the pastels the blobs are drawn in */
+    --blush:#F5E7E4; --peach:#F3E4DE; --salmon:#F2C7BE; --mint:#A9E2DC;
+    --storm:#AFC5C9; --moss:#D3E2A0; --lavender:#C6C3DF; --sand:#F4D077;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { -webkit-text-size-adjust:100%; }
-  body { background:var(--ground); color:var(--ink); font:400 16px/1.6 'Inter', system-ui, sans-serif;
-         -webkit-font-smoothing:antialiased; }
-  .page { max-width:880px; margin:0 auto; padding:0 clamp(22px,4vw,48px) 64px; }
+  /* the motion rule: none. hovers switch instantly, nothing eases, nothing
+     floats or slides. a hover may only change color: the marigold border and
+     the ground. */
+  *, *::before, *::after { transition:none !important; animation:none !important; }
+  /* clip, not hidden, so the blobs may bleed off the left edge without a scrollbar */
+  html { -webkit-text-size-adjust:100%; overflow-x:clip; }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.6 'Archivo', system-ui, sans-serif;
+         -webkit-font-smoothing:antialiased; overflow-x:clip; }
+  .page { max-width:1080px; margin:0 auto; padding:0 clamp(22px,4vw,48px) 64px; }
   a { color:var(--lal); text-decoration:none; border-bottom:2px solid var(--lal); padding-bottom:1px; font-weight:600; }
   a:hover { color:var(--lal-hover); border-bottom-color:var(--lal-hover); }
   :focus-visible { outline:3px solid var(--marigold); outline-offset:3px; }
   .skip { position:absolute; left:-9999px; }
   .skip:focus { position:static; display:inline-block; margin:10px 0; }
 
-  /* masthead: descriptor in the wordmark's case, rule at the content width */
-  header { text-align:center; padding-top:34px; }
-  .wm { font:800 clamp(34px,4.4vw,54px)/1 'Franklin'; font-style:italic; letter-spacing:-.022em;
+  /* masthead: mark on the left, nav answering from the right */
+  header { padding-top:38px; display:flex; justify-content:space-between; align-items:flex-start;
+           gap:24px; flex-wrap:wrap; }
+  .wm { font:800 clamp(32px,4vw,48px)/1 'Franklin'; font-style:italic; letter-spacing:-.022em;
         color:var(--lal); border:none; position:relative; display:inline-block; padding:0 .12em; }
   .wm:hover { color:var(--lal); }
   .wm::before { content:""; position:absolute; left:-.04em; right:-.06em; top:26%; bottom:4%; z-index:0;
@@ -50,163 +61,310 @@
         transform:rotate(-.7deg); }
   .wm b { position:relative; z-index:1; font-weight:inherit; }
   .wm i { font-style:normal; }
-  .tag { margin-top:10px; font:500 15.5px/1.4 'Franklin'; color:var(--ink); }
-  .rule { margin:22px 0 0; border-top:2px solid var(--ink); }
-  nav { margin-top:16px; display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
-  nav a { font:400 15px/1 'Franklin'; color:var(--muted); border-bottom:1.5px solid transparent; padding-bottom:3px; font-weight:400; }
+  .tag { margin-top:8px; font:500 15.5px/1.4 'Archivo'; color:var(--ink); }
+  nav { display:flex; gap:30px; flex-wrap:wrap; margin-top:14px; }
+  nav a { font:400 15px/1 'Archivo'; color:var(--muted); border-bottom:1.5px solid transparent; padding-bottom:3px; font-weight:400; }
   nav a:hover { color:var(--ink); border-bottom-color:var(--ink); }
   nav a[aria-current] { color:var(--ink); border-bottom-color:var(--ink); }
   nav a.join { color:var(--lal); font-weight:600; border-bottom-color:rgba(158,43,37,.35); }
   nav a.join:hover { border-bottom-color:var(--lal); }
 
-  /* hero: what we do on the left, why it matters answering from the right, one door.
-     the stagger is the whole gesture. the hero no longer reserves the screen, so the
-     source row follows straight on and the fold falls wherever the content ends. */
-  .hero { margin-top:clamp(34px,6vh,60px); text-align:left; }
-  .lede { font:600 clamp(23px,3vw,32px)/1.32 'InterTight'; letter-spacing:-.014em;
-          color:var(--ink); max-width:26ch; margin-right:auto; }
+  /* hero: the claim and the mission on the left, the grid of sources right */
+  .hero { position:relative; margin-top:clamp(40px,6vh,64px); display:grid;
+          grid-template-columns:minmax(0,1fr) minmax(0,404px);
+          grid-template-areas:"lede cluster" "why cluster";
+          grid-template-rows:auto auto;
+          column-gap:clamp(24px,3.4vw,44px); align-items:start; }
+  .hero .lede { grid-area:lede; }
+  .hero .why { grid-area:why; }
+  .hero .srcgrid { grid-area:cluster; }
+  .lede { font:600 clamp(26px,3.4vw,40px)/1.3 'Archivo'; letter-spacing:-.016em;
+          color:var(--ink); max-width:26ch; }
   .lede a { white-space:nowrap; }   /* the accent phrase never breaks across lines */
-  /* the tail: the door leads, the three pillars follow it along one line.
-     wraps to two lines when the frame cannot hold both, door staying on top. */
-  .tail { margin-top:clamp(20px,2.8vh,28px); display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-  .tail .more { margin:0; flex:none; }
-  .tail .pillars { margin-top:0; flex:1 1 380px; }
-  /* below this the chips start wrapping their own labels, so give them the whole row
-     and let the button drop to a second line, still right */
-  @media (max-width:860px){ .tail .pillars { flex-basis:100%; } }
 
-  .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  /* the sources, the open catalog (option a2, chosen 2026-08-28): every object
+     in its own borderless cell, named beneath it, the tooltip carrying the rest */
+  .srcgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:2px; }
+  .srcgrid .cell { padding:12px 8px 9px; min-height:134px;
+                   display:flex; flex-direction:column; align-items:center;
+                   justify-content:space-between; gap:9px; }
+  .srcgrid .obj { flex:1; display:flex; align-items:center; justify-content:center; }
+  .srcgrid .cimg { max-width:92%; max-height:82px; width:auto; height:auto; filter:drop-shadow(0 2px 6px rgba(43,42,39,.18));}
+  .srcgrid .cimg.solid { filter:none; }
+  .srcgrid .cell b { font:600 9.5px/1 'Archivo'; letter-spacing:.13em; color:var(--muted); }
+  .cell.dual .i-book { max-width:56%; }
+  .cell.dual .i-mag  { max-width:40%; margin-left:-10%; margin-top:16px; position:relative; z-index:2; }
+  @media (prefers-reduced-motion: reduce) {
+    .tvloop { content:url('img/tv-still.webp'); }
+  }
+  /* the hover card over a cluster object: the field gold, the heading in lal.
+     the one sanctioned exception to the motion rule: it slides in 8px from the
+     cursor's direction, quick, and eases out when leaving. the !important is
+     what lets these transitions beat the blanket none above. */
+  .hovercard { position:fixed; z-index:80; max-width:250px; background:var(--field);
+               border-radius:3px; padding:11px 13px 12px;
+               box-shadow:0 2px 12px rgba(43,42,39,.14); pointer-events:none;
+               opacity:0; visibility:hidden;
+               transition:opacity .16s ease-out, transform .13s ease-out,
+                          visibility 0s linear .16s !important; }
+  .hovercard.on { opacity:1; visibility:visible; transform:none;
+                  transition:opacity .12s ease-out, transform .12s ease-out,
+                             visibility 0s !important; }
+  .hovercard b { display:block; font-size:13px; line-height:1.3; font-weight:600;
+                 color:var(--lal); margin-bottom:5px; }
+  .hovercard p { font-size:12.5px; line-height:1.55; color:rgba(43,42,39,.78); }
+  /* the mission, in the field */
+  .why { margin-top:clamp(30px,4.5vh,44px); background:var(--field); border-radius:3px;
+         padding:clamp(20px,2.6vw,28px); max-width:640px; }
+  .why p { font:600 clamp(18px,2vw,21px)/1.5 'Archivo'; letter-spacing:-.012em;
+           color:var(--lal-deep); text-shadow:0 1px 0 rgba(255,255,255,.5); }
+
+  /* the door leads, the three pillars follow it along one line */
+  .tail { margin-top:clamp(22px,3vh,32px); display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .more { display:block; width:fit-content; background:var(--lal); color:#fff; border:none; border-radius:3px;
+          padding:12px 19px; font:600 14px/1 'Archivo'; flex:none; }
+  .more:hover { background:var(--lal-hover); color:#fff; }
+  .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1 1 420px; }
   .pill { display:flex; align-items:center; gap:9px; border:1px solid var(--hair); border-radius:3px;
-          padding:12px 14px; background:#fff; font:600 13px/1.25 'Inter'; color:var(--ink);
-          text-decoration:none; transition:background .12s ease, border-color .12s ease, transform .12s ease; }
-  .pill:hover { background:var(--wash); border-color:var(--marigold); color:var(--ink); transform:translateY(-1px); }
+          padding:12px 14px; background:#fff; font:600 13px/1.25 'Archivo'; color:var(--ink);
+          text-decoration:none; }
+  .pill:hover { background:var(--wash); border-color:var(--marigold); color:var(--ink); }
   .pill .sw { width:10px; height:10px; border-radius:2px; flex:none; }
   .pill.p1 .sw { background:var(--c1); } .pill.p2 .sw { background:var(--c2); } .pill.p3 .sw { background:var(--c3); }
-  @media (max-width:560px){ .pillars { grid-template-columns:1fr; } }
 
-  .why { margin:clamp(26px,3.5vh,36px) 0 0 auto; background:var(--field); border-radius:3px;
-         padding:clamp(20px,2.6vw,28px); max-width:620px; }
-  .why p { font:600 clamp(18px,2vw,21px)/1.5 'InterTight'; letter-spacing:-.012em;
-           color:var(--lal-deep); text-shadow:0 1px 0 rgba(255,255,255,.5); }
-  /* the door is a solid button: the one thing on the page asking to be pressed */
-  .more { display:block; width:fit-content; margin:clamp(18px,2.4vh,24px) 0 0 auto;
-          background:var(--lal); color:#fff; border:none; border-radius:3px;
-          padding:12px 19px; font:600 14px/1 'Inter'; }
-  .more:hover { background:var(--lal-hover); color:#fff; }
+  /* the work heading sits above the swipe, left on the frame */
+  .work-head { margin-top:clamp(44px,7vh,68px); scroll-margin-top:18px; text-align:left;
+               font:600 clamp(21px,2.3vw,27px)/1.2 'Inter'; letter-spacing:-.012em;
+               color:var(--ink); }
+  /* the swipe, stretched into a section rule */
+  .swipe { margin:16px calc(50% - 50vw) 0; height:10px;
+           background:linear-gradient(90deg, rgba(var(--marigold-rgb),0) 0%, rgba(var(--marigold-rgb),.9) 10%,
+                      rgba(var(--marigold-rgb),.72) 50%, rgba(var(--marigold-rgb),.9) 90%, rgba(var(--marigold-rgb),0) 100%); }
 
-  /* the source buttons: boxes that invite a click. the top edge carries the archive's
-     figure color, so the row doubles as the legend those archives keep in every chart.
-     three across, then two: five narrow columns could not hold several questions each. */
-  .sources { margin-top:clamp(78px,12vh,144px); }
-  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-  .card { display:flex; flex-direction:column; border:1px solid var(--hair); border-top:3px solid var(--k);
-          border-radius:3px; padding:13px 15px; color:var(--ink); font-weight:400; text-decoration:none;
-          background:#fff; transition:background .12s ease, border-color .12s ease, transform .12s ease; }
-  .card:hover { background:var(--wash); border-color:var(--marigold); border-top-color:var(--k); transform:translateY(-1px); }
-  .card svg { display:block; margin-bottom:11px; color:var(--k); }
-  .card b { display:block; font:600 13.5px/1.3 'Inter'; margin-bottom:7px; }
-  .card p { font:500 13.5px/1.45 'InterTight'; color:var(--muted); }
-  .card p + p { margin-top:8px; padding-top:8px; border-top:1px solid rgba(43,42,39,.07); }
-  .card .go { margin-top:auto; padding-top:12px; font:600 13px/1 'Franklin'; color:var(--faint);
-              display:flex; justify-content:flex-end; transition:color .12s ease, transform .12s ease; }
-  .card:hover .go { color:var(--k); transform:translateX(2px); }
-  /* the categorical figure palette, fixed order, one archive each */
-  .k1 { --k:#9E2B25; } .k2 { --k:#00919B; } .k3 { --k:#C08A10; } .k4 { --k:#3D52B8; } .k5 { --k:#A15A1E; }
-  @media (max-width:760px){ .cards { grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:520px){ .cards { grid-template-columns:1fr; } }
+  /* the work as a register (option a4, chosen 2026-08-28): no boxes, four
+     measure, a hanging ordinal and the stage word in the left rail, the object
+     on a plate at the right. hover lights the row and its own two rules. */
+  .st { font:600 10.5px/1 'Archivo'; letter-spacing:.1em; font-style:normal; }
+  .st-pub { color:var(--lal-deep); } .st-on { color:rgba(43,42,39,.72); }
+  .st-wait { color:var(--muted); }
+  .work { margin-top:clamp(18px,2.6vh,26px); }
+  a.rrow { display:grid; grid-template-columns:110px minmax(0,1fr) 280px;
+           gap:28px; padding:26px 0 30px; border-top:1px solid var(--hair);
+           border-bottom:0; color:var(--ink); font-weight:400; }
+  a.rrow:last-child { border-bottom:1px solid var(--hair); }
+  a.rrow:hover { color:var(--ink); background:var(--wash); border-top-color:var(--marigold); }
+  a.rrow:hover + a.rrow { border-top-color:var(--marigold); }
+  a.rrow:last-child:hover { border-bottom-color:var(--marigold); }
+  .rrow .no { display:block; font:600 30px/1 'Inter'; color:var(--faint);
+              letter-spacing:-.01em; }
+  .rrow:hover .no { color:var(--lal); }
+  .rrow .st { display:block; margin-top:9px; }
+  .rrow h2 { font:600 21px/1.3 'Archivo'; letter-spacing:-.012em; margin-bottom:10px; }
+  .rrow p { font:400 13.5px/1.55 'Archivo'; max-width:56ch; }
+  .rrow p + p { margin-top:10px; }
+  .rrow .plate { display:flex; flex-direction:column; align-items:center;
+                 justify-content:center; gap:9px; }
+  .rrow .plate .wimg { max-width:100%; max-height:175px; width:auto; height:auto; }
+  .rrow .plate .tvloop { max-width:190px; }
+  .rrow .chs { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
+  .rrow .ci { width:22px; height:22px; object-fit:contain; background:#fff;
+              border:1px solid var(--hair); border-radius:2px; padding:2px; }
+  .rrow .pair { position:relative; width:72%; aspect-ratio:4/3; }
+  .rrow .pair .ml { position:absolute; width:54%; height:auto;
+                    filter:drop-shadow(0 2px 6px rgba(43,42,39,.18)); }
+  .rrow .ml-ig { left:2%; top:6%; transform:rotate(-8deg); }
+  .rrow .ml-fb { left:42%; top:30%; transform:rotate(7deg); }
+  @media (max-width:760px){
+    a.rrow { grid-template-columns:1fr; gap:14px; padding:22px 0 26px; }
+    .rrow .rail { display:flex; align-items:baseline; gap:12px; }
+    .rrow .no { font-size:22px; }
+    .rrow .st { margin-top:0; }
+    .rrow .plate { max-width:300px; margin:4px auto 0; }
+  }
+  /* a3 on top of a: the ordinal at display size, the titles larger,
+     the register as a studio index */
+  a.rrow { grid-template-columns:150px minmax(0,1fr) 280px; padding:32px 0 36px; }
+  .rrow .no { font-size:54px; font-weight:500; letter-spacing:-.022em; }
+  .rrow .st { margin-top:12px; }
+  .rrow h2 { font-size:27px; margin-bottom:12px; }
+  .rrow p { font-size:14px; max-width:58ch; }
+  @media (max-width:760px){
+    a.rrow { grid-template-columns:1fr; padding:22px 0 26px; }
+    .rrow .no { font-size:32px; }
+    .rrow .st { margin-top:0; }
+    .rrow h2 { font-size:21px; }
+  }
+  /* a4 on top of a3: the media landscape leads with the deeper entry and
+     the channel strip, and the stage word becomes a small rectangle tag again */
+  .rrow.big .plate .wimg { max-height:none; max-width:100%; }
+  .rrow.big .chstrip { grid-column:2 / 4; display:flex; flex-wrap:wrap; gap:6px;
+                       align-items:center; }
+  .rrow.big .chstrip .ci { width:30px; height:30px; }
+  .rrow .st { display:inline-block; padding:4px 7px 3px; border-radius:2px;
+              letter-spacing:.1em; }
+  .st-pub { background:var(--field); color:var(--lal-deep); }
+  .st-on { background:#fff; border:1px solid var(--line); color:var(--ink); }
+  .st-wait { background:#fff; border:1px solid var(--hair); color:var(--muted); }
+  /* the row itself never restyles on hover; only the title answers, going
+     lal and underlined */
+  a.rrow:hover { background:none; border-top-color:var(--hair); }
+  a.rrow:hover + a.rrow { border-top-color:var(--hair); }
+  a.rrow:last-child:hover { border-bottom-color:var(--hair); }
+  .rrow:hover .no { color:var(--faint); }
+  a.rrow:hover h2 { color:var(--lal); text-decoration:underline;
+                    text-decoration-thickness:2px; text-underline-offset:5px; }
+  @media (max-width:760px){
+    .rrow.big .chstrip { grid-column:1; justify-content:center; }
+  }
 
   /* join */
   .join-block { margin-top:clamp(44px,7vh,72px); background:var(--field); border-radius:3px;
                 padding:clamp(20px,2.6vw,28px); display:flex; gap:18px; align-items:baseline;
                 justify-content:space-between; flex-wrap:wrap; }
-  .join-block p { font:500 clamp(17px,1.9vw,19px)/1.45 'InterTight'; letter-spacing:-.008em; max-width:48ch; }
+  .join-block p { font:500 clamp(17px,1.9vw,19px)/1.45 'Archivo'; letter-spacing:-.008em; max-width:48ch; }
   .join-block a { font-size:15px; white-space:nowrap; }
 
   footer { margin-top:clamp(52px,8vh,88px); border-top:1px solid var(--hair); padding-top:16px;
            font-size:12.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
   footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
+
+  @media (max-width:860px){
+    .hero { grid-template-columns:1fr; grid-template-areas:"lede" "cluster" "why";
+            grid-template-rows:auto auto auto; }
+    .srcgrid { max-width:460px; margin:8px auto 0; }
+    .pillars { flex-basis:100%; }
+  }
+  @media (max-width:700px){
+    .wcards { grid-template-columns:1fr; }
+  }
+  @media (max-width:560px){
+    .pillars { grid-template-columns:1fr; }
+    .wcard .media { grid-template-columns:1fr; gap:14px; }
+    .wcard .media .ph { max-width:200px; }
+    .wcard .media .wimg { max-width:280px; }
+  }
 </style>
 </head>
 <body>
-<a class="skip" href="#sources">skip to what we read</a>
+<a class="skip" href="#work">skip to the work</a>
 <div class="page">
 
   <header>
-    <a class="wm" href="index.html"><b>semicolon<i>;</i></b></a>
-    <p class="tag">a pakistani research collective</p>
-    <div class="rule"></div>
+    <div class="brand">
+      <a class="wm" href="index.html"><b>semicolon<i>;</i></b></a>
+      <p class="tag">a Pakistani research collective</p>
+    </div>
     <nav>
       <a href="index.html" aria-current="page">home</a>
       <a href="about.html">about</a>
-      <a href="#">work</a>
+      <a href="#work">work</a>
       <a class="join" href="#join">join us</a>
     </nav>
   </header>
 
   <main>
-    <div class="hero">
-      <h1 class="lede">we measure Pakistan's <a href="#sources">information system</a> and trace how power moves through it.</h1>
-      <div class="why">
-        <p>to move forward, Pakistan must study itself: its institutions, its society and its state; then recognize their failures, realize their responsibilities, and construct ideals.</p>
+    <section class="hero">
+      <h1 class="lede">We measure Pakistan's <a href="#work">information system</a> and trace how power moves through it.</h1>
+
+      <div class="srcgrid">
+        <div class="cell"><span class="obj"><img class="cimg solid i-tv" src="img/tv-still.webp" alt="a crt television playing pakistani news" data-title="tv news" data-blurb="everything the channels put on air. we have four years of it, from ten most popular channels, transcribed, translated, and now investigating."></span><b>TV News</b></div>
+        <div class="cell"><span class="obj"><img class="cimg solid i-news" src="img/newspapers-cluster.webp" alt="a stack of pakistani newspaper front pages" data-title="newspapers" data-blurb="the front pages of newspapers the public sees. we capture 45 of them every morning, in five languages."></span><b>Newspapers</b></div>
+        <div class="cell"><span class="obj"><img class="cimg i-ballot" src="img/ballot.webp" alt="an election ballot box" data-title="voting records" data-blurb="the results every polling station reported in the last two elections, from the official forms. we check the count for consistency, and for fraud."></span><b>Voting Records</b></div>
+        <div class="cell"><span class="obj"><img class="cimg i-social" src="img/platforms.webp" alt="social platform logos" data-title="social media" data-blurb="what the feed shows people, and what people say back."></span><b>Social media</b></div>
+        <div class="cell"><span class="obj"><img class="cimg i-parl" src="img/parliament.png" alt="parliament house" data-title="parliament debates" data-blurb="what our politicians have ever said in parliament, on the record. every sitting since 1947."></span><b>Parliament</b></div>
+        <div class="cell dual"><span class="obj"><img class="cimg solid i-book" src="img/textbook.webp" alt="a school textbook" data-title="textbooks" data-blurb="the books students study in school, going back decades, public and private."><img class="cimg solid i-mag" src="img/magazine.webp" alt="the pakhtoon magazine, 2021 centenary issue" data-title="magazines" data-blurb="pakhtoon, a state banned magazine. we collect and archive all 111 issues."></span><b>Books &#183; Magazines</b></div>
       </div>
-      <div class="tail">
-        <a class="more" href="about.html">how we work</a>
-        <div class="pillars" aria-label="the three pillars">
-          <a class="pill p1" href="about.html#archive"><span class="sw"></span>archive discourse</a>
-          <a class="pill p2" href="about.html#study"><span class="sw"></span>study the system</a>
-          <a class="pill p3" href="about.html#ideals"><span class="sw"></span>construct ideals</a>
-        </div>
+
+      <div class="why">
+        <p>Pakistan must study itself to move forward.<br>Study its institutions, its society and its state;<br>then recognize their failures, realize their responsibilities, and construct ideals.</p>
+      </div>
+    </section>
+
+    <div class="tail">
+      <a class="more" href="#work">What are we doing?</a>
+      <div class="pillars" aria-label="the three pillars">
+        <a class="pill p1" href="about.html#archive"><span class="sw"></span>Archive discourse</a>
+        <a class="pill p2" href="about.html#study"><span class="sw"></span>Study the system</a>
+        <a class="pill p3" href="about.html#ideals"><span class="sw"></span>Construct ideals</a>
       </div>
     </div>
 
-    <div class="sources" id="sources">
-      <div class="cards">
-        <a class="card k1" href="#">
-          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="1" y="1" width="24" height="15"/><path d="M9 21l4-5 4 5"/>
-          </svg>
-          <b>tv news</b><p>how does the media frame certain issues?</p><p>what biases are apparent?</p><p>where do different outlets diverge?</p><p>what should be the media's responsibilities?</p><span class="go">&#8594;</span>
+    <h2 class="work-head" id="work">Our works</h2>
+    <div class="swipe" role="presentation"></div>
+
+    <section class="work">
+        <a class="rrow big" href="media-landscape.html">
+          <span class="rail"><b class="no">01</b><i class="st st-on">In Progress</i></span>
+          <span class="body"><h2>The media landscape of Pakistan</h2><p>We are studying 2 years of broadcast from the ten most watched news channels to uncover what they cover, how they frame it, and who they support.</p><p>Are all the channels saying the same thing? Who do they blame when things go bad? Do they follow their owner's politics?</p></span>
+          <span class="plate"><img class="wimg tvloop" src="img/tv-once.webp" alt="a crt television playing pakistani news"></span>
+          <span class="chstrip"><img class="ci" src="img/channels/geo.png" alt="Geo News"><img class="ci" src="img/channels/dunya.png" alt="Dunya News"><img class="ci" src="img/channels/ary.png" alt="ARY News"><img class="ci" src="img/channels/bol.png" alt="BOL News"><img class="ci" src="img/channels/aaj.png" alt="Aaj News"><img class="ci" src="img/channels/express.png" alt="Express News"><img class="ci" src="img/channels/24.png" alt="24 News HD"><img class="ci" src="img/channels/hum.png" alt="Hum News"><img class="ci" src="img/channels/samaa.png" alt="Samaa TV"><img class="ci" src="img/channels/ptv.png" alt="PTV News"></span>
         </a>
-        <a class="card k2" href="#">
-          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M1 1h16v11H6l-5 4z"/><path d="M21 6h4v11l-4-3"/>
-          </svg>
-          <b>social media</b><p>does discourse on the platforms follow what is on tv?</p><p>what are Pakistanis engaging with online?</p><span class="go">&#8594;</span>
+        <a class="rrow" href="https://akhbar.semicolon.pk">
+          <span class="rail"><b class="no">02</b><i class="st st-pub">Published</i></span>
+          <span class="body"><h2>Daily Akhbar</h2><p>Every morning we capture the front page of every Pakistani newspaper we can reach: 45 papers, from 12 cities, in five languages.</p><p>What is the whole country being told to look at today? do the Urdu papers and the English papers lead with the same story?</p><p>Use these front pages to ask your questions.</p></span>
+          <span class="plate"><img class="wimg" src="img/newspapers.webp" alt="front pages of pakistani newspapers"></span>
         </a>
-        <a class="card k3" href="#">
-          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M1 1h18v20H1z"/><path d="M19 6h6v15h-6"/><path d="M5 6h10M5 10h10M5 14h10"/>
-          </svg>
-          <b>newspapers</b><p>what issues are given valuable space?</p><p>what bias and frames are used for minority groups?</p><span class="go">&#8594;</span>
+        <a class="rrow" href="https://pakhtoon.semicolon.pk">
+          <span class="rail"><b class="no">03</b><i class="st st-on">In Progress</i></span>
+          <span class="body"><h2><span lang="ps" dir="rtl">&#x67E;&#x69A;&#x62A;&#x648;&#x646;</span> (Pakhtoon)</h2><p>The magazine of Bacha Khan's movement, printed in Peshawar and once banned by the British.</p><p>We archive 111 issues, 1928 to 1960, in Pashto with English beside it.</p><p>It tells many stories and lives of Pashtun within the anti-colonial movement. Use the dashboard to explore the magazines.</p></span>
+          <span class="plate"><img class="wimg" src="img/pakhtoon-logo.png" alt="the pakhtoon masthead in pashto calligraphy"></span>
         </a>
-        <a class="card k4" href="#">
-          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="1" y="3" width="6" height="18"/><rect x="9" y="1" width="6" height="20"/><rect x="17" y="5" width="6" height="16"/>
-          </svg>
-          <b>books</b><p>what are children taught to believe?</p><p>what are the biases within the textbooks?</p><span class="go">&#8594;</span>
+        <a class="rrow" href="social-media-discourse.html">
+          <span class="rail"><b class="no">04</b><i class="st st-wait">Waiting</i></span>
+          <span class="body"><h2>Social media discourse</h2><p>Social media has lowered the barrier for political participation and getting informed. This also means almost anything can be said by anyone and an algorithm decides what you get to see.</p><p>What are 60 million Pakistanis talking about there? What content gets the most attention? Is the algorithmic pushing radical and extermist views?</p><p>We are waiting for research approval from Meta.</p></span>
+          <span class="plate"><span class="pair"><img class="ml ml-ig" src="img/instagram.svg" alt="instagram"><img class="ml ml-fb" src="img/facebook.png" alt="facebook"></span></span>
         </a>
-        <a class="card k5" href="#">
-          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="4" cy="5" r="1.6"/><circle cx="11" cy="5" r="1.6"/><circle cx="18" cy="5" r="1.6"/>
-            <circle cx="4" cy="12" r="1.6"/><circle cx="11" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>
-            <path d="M1 19h24"/>
-          </svg>
-          <b>parliament debates</b><p>what issues is the parliament talking about?</p><p>how have their stances changed over the years?</p><span class="go">&#8594;</span>
-        </a>
-      </div>
-    </div>
+    </section>
 
     <div class="join-block" id="join">
-      <p>come join us; be a part of the collective.</p>
+      <p>Come join us; be a part of the collective.</p>
       <a href="mailto:hello@semicolon.pk">join us</a>
     </div>
   </main>
 
   <footer>
-    <span>semicolon; · semicolon.pk · draft</span>
+    <span>semicolon; · semicolon.pk</span>
     <a href="about.html">about</a>
   </footer>
 
 </div>
+<script>
+  /* the hover card on the source objects: filled from each image's
+     data-title and data-blurb */
+  (function () {
+    var hc = document.createElement('div');
+    hc.className = 'hovercard';
+    hc.innerHTML = '<b></b><p></p>';
+    document.body.appendChild(hc);
+    document.querySelectorAll('.srcgrid .cimg[data-title]').forEach(function (img) {
+      img.addEventListener('mouseenter', function (e) {
+        if (document.body.classList.contains('ed-on')) return;   /* not while editing */
+        hc.querySelector('b').textContent = img.dataset.title;
+        hc.querySelector('p').textContent = img.dataset.blurb || '';
+        var r = img.getBoundingClientRect();
+        var w = hc.offsetWidth, h = hc.offsetHeight;
+        var x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
+        var y = r.top - h - 10;
+        if (y < 8) y = r.bottom + 10;
+        /* snap into place unanimated, starting a nudge toward the cursor */
+        hc.style.setProperty('transition', 'none', 'important');
+        hc.classList.remove('on');
+        hc.style.left = x + 'px';
+        hc.style.top = y + 'px';
+        var dx = e.clientX - (x + w / 2), dy = e.clientY - (y + h / 2);
+        var len = Math.hypot(dx, dy) || 1;
+        hc.style.transform = 'translate(' + (dx / len * 8).toFixed(1) + 'px,' +
+                             (dy / len * 8).toFixed(1) + 'px)';
+        void hc.offsetHeight;   /* commit the start state */
+        hc.style.removeProperty('transition');
+        hc.style.transform = '';
+        hc.classList.add('on'); /* then slide and fade to rest */
+      });
+      img.addEventListener('mouseleave', function () { hc.classList.remove('on'); });
+    });
+    addEventListener('scroll', function () { hc.classList.remove('on'); }, { passive: true });
+  })();
+</script>
+<script src="edit.js?v=1"></script>
 </body>
 </html>
