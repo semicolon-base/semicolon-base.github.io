@@ -151,6 +151,7 @@
   a.rrow { display:grid; grid-template-columns:110px minmax(0,1fr) 280px;
            gap:28px; padding:26px 0 30px; border-top:1px solid var(--hair);
            border-bottom:0; color:var(--ink); font-weight:400; }
+  a.rrow:first-child { border-top:0; }   /* the swipe already opens the section */
   a.rrow:last-child { border-bottom:1px solid var(--hair); }
   a.rrow:hover { color:var(--ink); background:var(--wash); border-top-color:var(--marigold); }
   a.rrow:hover + a.rrow { border-top-color:var(--marigold); }
