@@ -154,6 +154,9 @@
            position:relative; }
   footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
 
+  /* grid items default to min-width:auto, so the tv stack's intrinsic width
+     was holding the column open past the phone's measure */
+  .phero > * { min-width:0; }
   @media (max-width:760px){
     .phero { grid-template-columns:1fr; row-gap:26px; }
     .pimg { justify-self:start; max-width:380px; }
@@ -167,6 +170,9 @@
   }
   @media (max-width:620px){
     .stats { grid-template-columns:1fr; row-gap:34px; }
+    /* the number, its label and the glyph stop sharing a line */
+    .stat.srow { display:block; }
+    .stat.srow .glyph { margin-top:14px; margin-left:0; }
   }
 </style>
 </head>
