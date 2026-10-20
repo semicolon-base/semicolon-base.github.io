@@ -222,6 +222,7 @@
   footer { margin-top:clamp(52px,8vh,88px); border-top:1px solid var(--hair); padding-top:16px;
            font-size:12.5px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
   footer a { font-size:12.5px; font-weight:500; border-bottom-width:1px; }
+  footer .socials { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 
   @media (max-width:860px){
     .hero { grid-template-columns:1fr; grid-template-areas:"lede" "cluster" "why";
@@ -239,6 +240,11 @@
     .wcard .media .wimg { max-width:280px; }
   }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"semicolon","url":"https://semicolon.pk",
+ "logo":"https://semicolon.pk/apple-touch-icon.png",
+ "sameAs":["https://x.com/semicolonpk","https://www.instagram.com/semicolonpk/","https://www.tiktok.com/@semicolonpk","https://www.youtube.com/@semicolonpk","https://www.linkedin.com/company/semicolonpk/"]}
+</script>
 </head>
 <body>
 <a class="skip" href="#work">skip to the work</a>
@@ -321,6 +327,7 @@
   <footer>
     <span>semicolon; · semicolon.pk</span>
     <a href="about.html">about</a>
+    <span class="socials"><a href="https://x.com/semicolonpk" rel="me noopener">x</a> <a href="https://www.instagram.com/semicolonpk/" rel="me noopener">instagram</a> <a href="https://www.tiktok.com/@semicolonpk" rel="me noopener">tiktok</a> <a href="https://www.youtube.com/@semicolonpk" rel="me noopener">youtube</a> <a href="https://www.linkedin.com/company/semicolonpk/" rel="me noopener">linkedin</a></span>
   </footer>
 
 </div>
